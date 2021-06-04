@@ -9,14 +9,14 @@ doc_path = 'upload.xlsx'
 aca_year = '2021'
 ucode = 'BSD'
 headers = ['type','action','code','name','start_date','end_date','is_active','department_code','template_code','semester_code','offering_code','custom_code']
-temp_list = [['temp_elem','Brightspace Elementary Template'],['MS_Temp','MS Temp'],['HS_Temp','HS Temp']]
+temp_list = [['3gm','3rd Grade Master'],['4gm','4th Grade Master'],['5gm','5th Grade Master']]
 grades_list  = [['K','1','2','3','4','5'],['6','7','8'],['9','10','11','12']]
 
 
 def update_dept(headers):
     dept = []
     dept.append(headers)
-    dept.append(['department','UPDATE','elemc','Test Department','','','','','','','',''])
+    dept.append(['department','UPDATE','dept_BrightspaceCourses_d2l','Brightspace Courses','','','','','','','',''])
     df = pd.DataFrame(dept)
     df.to_csv('1-Department.csv', header=False, index=False, sep=',')
 
@@ -29,7 +29,7 @@ def create_district(doc_path, temp_list, grades_list, headers, unc):
     district_data = []
     district_data.append('District')
     district_data.append('CREATE')
-    district_data.append(aca_year + ucode + 'D_FY_' + str(district_list[1]).replace(' ','_'))
+    district_data.append(aca_year + unc + 'D_FY_' + str(district_list[1]).replace(' ','_'))
     district_data.append(str(district_list[1]))
     district_code = aca_year + unc + 'D_FY_' + str(district_list[1]).replace(' ','_')
     district_data = district_data + ['','']
@@ -63,7 +63,7 @@ def create_schools(district_code, doc_path, temp_list, grades_list, headers, unc
     school_codes = []
     for school in schools_list:
         schools.append(['School','CREATE',aca_year + unc + 'S-FY'+school[0].replace(' ','_'),school[0],'','',1,'','','','',district_code])
-        school.append(aca_year + ucode + 'S-FY'+school[0].replace(' ','_'))
+        school.append(aca_year + unc + 'S-FY'+school[0].replace(' ','_'))
         df = pd.DataFrame(schools)
         df.to_csv('2-Schools.csv', header=False, index=False, sep=',')
     update_templates(temp_list, schools_list, grades_list, headers, unc)
@@ -77,7 +77,7 @@ def create_semester(aca_year, headers, unc):
     semester.append(['semester','CREATE',aca_year + unc + '_AY_Sem','AY ' + aca_year,'','','','','','','',''])
     df = pd.DataFrame(semester)
     df.to_csv('3-Semester.csv', header=False, index=False, sep=',')
-    sem_code = aca_year + ucode + '_AY_Sem'
+    sem_code = aca_year + unc + '_AY_Sem'
     return sem_code
 
 
@@ -202,4 +202,4 @@ def main(unc):
         filelist=['1-Department.csv','1-District.csv','2-Schools.csv','3-Semester.csv','4-Templates.csv','5-Offerings.csv','6-Users.csv','7-Enrollments.csv','upload.xlsx']
         for file in filelist:
             os.remove(file)
-        shutil.move('download.zip', '/polls/static/polls/downloads/')
+        shutil.move('download.zip', 'polls/static/polls/downloads/')
