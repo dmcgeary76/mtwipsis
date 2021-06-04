@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import shutil
+import os
 import zipfile
 from datetime import date, datetime
 
@@ -166,6 +168,11 @@ def create_enrollments(users, course_index):
 
 
 def main(unc):
+    if os.path.exists('polls/static/polls/downloads/download.zip'):
+        print('path exists')
+        os.remove('polls/static/polls/downloads/download.zip')
+    else:
+        print('path does not exist')
     course_index = []
     users = []
     update_dept(headers)
@@ -179,7 +186,7 @@ def main(unc):
     now = datetime.now()
     ct = str(now.strftime("%H:%M:%S").replace(':',''))
     zft = this_day + '-' + ct + '_' + ucode +'_IPSIS.zip'
-    zf = zipfile.ZipFile(zft, mode='w')
+    zf = zipfile.ZipFile('download.zip', mode='w')
     try:
         zf.write('manifest.json')
         zf.write('1-Department.csv')
@@ -192,3 +199,7 @@ def main(unc):
         zf.write('7-Enrollments.csv')
     finally:
         zf.close()
+        filelist=['1-Department.csv','1-District.csv','2-Schools.csv','3-Semester.csv','4-Templates.csv','5-Offerings.csv','6-Users.csv','7-Enrollments.csv','upload.xlsx']
+        for file in filelist:
+            os.remove(file)
+        shutil.move('download.zip', 'polls/static/polls/downloads')

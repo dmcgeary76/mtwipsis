@@ -24,4 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('<int:question_id>/vote/', views.vote, name='vote'),
     path('upload/', views.upload, name='upload'),
+    path('download/', views.download, name='download'),
 ]

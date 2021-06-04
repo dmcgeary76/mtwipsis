@@ -71,7 +71,11 @@ def upload(request):
             name_holder = form.cleaned_data.get("name")
             submission.save()
             main(name_holder)
-            return HttpResponseRedirect('polls/upload.html')
+            return HttpResponseRedirect(reverse('polls:download'))
     else:
         form = FileUploadForm()
     return render(request, 'polls/upload.html', {'form':form})
+
+
+def download(request):
+    return render(request, 'polls/download.html', {})
