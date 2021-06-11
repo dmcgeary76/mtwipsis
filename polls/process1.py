@@ -9,8 +9,21 @@ doc_path = 'upload.xlsx'
 aca_year = '2021'
 ucode = 'BSD'
 headers = ['type','action','code','name','start_date','end_date','is_active','department_code','template_code','semester_code','offering_code','custom_code']
-temp_list = [['3gm','3rd Grade Master'],['4gm','4th Grade Master'],['5gm','5th Grade Master']]
-grades_list  = [['K','1','2','3','4','5'],['6','7','8'],['9','10','11','12']]
+# temp_list = [['3gm','3rd Grade Master'],['4gm','4th Grade Master'],['5gm','5th Grade Master']]
+temp_list = [
+    ['PreK-K_GRD_T','PreK-K Template (7017)'],
+    ['1_GRD_T','1st Grade Template (7015)'],
+    ['2_GRD_T','2nd Grade Template (7019)'],
+    ['3_GRD_T','3rd Grade Template (6692)'],
+    ['4_GRD_T','4th Grade Template (6687)'],
+    ['5_GRD_T','5th Grade Template (7022)'],
+    ['6_GRD_T','6th Grade Template (6689)'],
+    ['7_GRD_T','7th Grade Template (7020)'],
+    ['8_GRD_T','8th Grade Template (7023)'],
+    ['9-10_GRD_T','9-10th Grade Template (7026)'],
+    ['11-12_GRD_T','11th-12th Grade Template (7005)']
+]
+grades_list  = [['PK','K','1','2','3','4','5'],['6','7','8'],['9','10','11','12']]
 
 
 def update_dept(headers):
@@ -86,16 +99,25 @@ def update_templates(temp_list, schools_list, grades_list, headers, unc):
     course_index = []
     templates.append(headers)
     schools = []
+    i_start = 0
+    i_end = 0
     for school in schools_list:
         if school not in schools:
             schools.append(school)
     for school in schools:
         if school[1] == 'Elementary':
-            templates.append(['course template','UPDATE',temp_list[0][0],temp_list[0][1],'','','',school[2],'','','',''])
+            i_start = 0
+            i_end = 6
         if school[1] == 'Middle':
-            templates.append(['course template','UPDATE',temp_list[1][0],temp_list[1][1],'','','',school[2],'','','',''])
+            i_start = 6
+            i_end = 9
         if school[1] == 'High':
-            templates.append(['course template','UPDATE',temp_list[2][0],temp_list[2][1],'','','',school[2],'','','',''])
+            i_start = 9
+            i_end = 11
+        print('Start: %s, End: %s' % (i_start, i_end))
+        for i in range(i_start, i_end):
+            print(i)
+            templates.append(['course template','UPDATE',temp_list[i][0],temp_list[i][1],'','','',school[2],'','','',''])
     df = pd.DataFrame(templates)
     df.to_csv('4-Templates.csv', header=False, index=False, sep=',')
     create_offerings(temp_list, schools_list, grades_list, headers, unc)
@@ -117,13 +139,22 @@ def create_offerings(temp_list, schools_list, grades_list, headers, unc):
         holder = school[2]
         if school[1] == 'Elementary':
             for level in grades_list[0]:
-                offerings.append(['course offering','CREATE',school[0].replace(' ','_') + '_' + level,school[0] + ' - Grade ' + level,'','','1','',temp_list[0][0],sem_code,'',holder])
+                if grades_list[0].index(level) <= 1:
+                    x = 0
+                else:
+                    x = grades_list[0].index(level) - 1
+                offerings.append(['course offering','CREATE',school[0].replace(' ','_') + '_' + level,school[0] + ' - Grade ' + level,'','','1','',temp_list[x][0],sem_code,'',holder])
         if school[1] == 'Middle':
             for level in grades_list[1]:
-                offerings.append(['course offering','CREATE',school[0].replace(' ','_') + '_' + level,school[0] + ' - Grade ' + level,'','','1','',temp_list[1][0],sem_code,'',holder])
+                x = grades_list[1].index(level) + 6
+                offerings.append(['course offering','CREATE',school[0].replace(' ','_') + '_' + level,school[0] + ' - Grade ' + level,'','','1','',temp_list[x][0],sem_code,'',holder])
         if school[1] == "High":
             for level in grades_list[2]:
-                offerings.append(['course offering','CREATE',school[0].replace(' ','_') + '_' + level,school[0] + ' - Grade ' + level,'','','1','',temp_list[2][0],sem_code,'',holder])
+                if grades_list[2].index(level) >= 2:
+                    x = 10
+                else:
+                    x = 9
+                offerings.append(['course offering','CREATE',school[0].replace(' ','_') + '_' + level,school[0] + ' - Grade ' + level,'','','1','',temp_list[x][0],sem_code,'',holder])
     df = pd.DataFrame(offerings)
     for offering in offerings[1:]:
         try:
@@ -160,6 +191,8 @@ def create_enrollments(users, course_index):
     for user in users:
         user_grades = str(user[6]).split(',')
         for grade in user_grades:
+            print(grade)
+            print(course_index)
             for course in course_index:
                 if course[1] == grade:
                     enrollments.append(['enrollment','CREATE',user[2],user[8],course[2]])
