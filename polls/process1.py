@@ -262,7 +262,7 @@ def main(unc):
         bkt = 'mtwbucket'
         s3.Bucket(bkt).upload_file(obj,obj)
         file_object = s3.Bucket(bkt).Object(obj)
-        print(file_object.Acl().put(ACL='public_read'))
+        print(file_object.Acl().put(ACL='public-read'))
 
         '''
         filelist=['1-Department.csv','1-District.csv','2-Schools.csv','3-Semester.csv','4-Templates.csv','5-Offerings.csv','6-Users.csv','7-Enrollments.csv','upload.xlsx']
