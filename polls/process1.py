@@ -232,7 +232,9 @@ def main(unc):
         zf.write('7-Enrollments.csv')
     finally:
         zf.close()
+        '''
         filelist=['1-Department.csv','1-District.csv','2-Schools.csv','3-Semester.csv','4-Templates.csv','5-Offerings.csv','6-Users.csv','7-Enrollments.csv','upload.xlsx']
         for file in filelist:
             os.remove(file)
         shutil.move('download.zip', 'polls/')
+        '''
