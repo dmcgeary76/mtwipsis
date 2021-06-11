@@ -256,28 +256,13 @@ def main(unc):
         zf.write('7-Enrollments.csv')
     finally:
         zf.close()
-
-        S3_BUCKET = os.environ.get('S3_BUCKET')
-        #file_name = request.args.get('file_name')
-        #file_type = request.args.get('file_type')
-
-        s3 = boto3.client('s3')
-
-        presigned_post = s3.generate_presigned_post(
-          Bucket = S3_BUCKET,
-          Key = file_name,
-          Fields = {"acl": "public-read", "Content-Type": file_type},
-          Conditions = [
-            {"acl": "public-read"},
-            {"Content-Type": file_type}
-          ],
-          ExpiresIn = 3600
-        )
-
-        return json.dumps({
-          'data': presigned_post,
-          'url': 'https://mtwbucket.s3.us-east-2.amazonaws.com/%s' % (S3_BUCKET, file_name)
-        })
+        # upload the newly created file to a reserved S3 bucket
+        s3 = boto3.resource('s3')
+        obj = 'download.zip'
+        bkt = 'mtwbucket'
+        s3.Bucket(bkt).upload_file(obj,obj)
+        file_object = s3.Bucket(bkt).Object(obj)
+        print(file_object.Acl().put(ACL='public_read'))
 
         '''
         filelist=['1-Department.csv','1-District.csv','2-Schools.csv','3-Semester.csv','4-Templates.csv','5-Offerings.csv','6-Users.csv','7-Enrollments.csv','upload.xlsx']
