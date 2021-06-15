@@ -1,8 +1,0 @@
-type,action,code,name,start_date,end_date,is_active,department_code,template_code,semester_code,offering_code,custom_code
-School,CREATE,2021kjhgS-FYBrightspace_Elementary,Brightspace Elementary,,,1,,,,,2021kjhgD_FY_Brightspace_District
-School,CREATE,2021kjhgS-FYBrightspace_Elementary,Brightspace Elementary,,,1,,,,,2021kjhgD_FY_Brightspace_District
-School,CREATE,2021kjhgS-FYBrightspace_Middle_School,Brightspace Middle School,,,1,,,,,2021kjhgD_FY_Brightspace_District
-School,CREATE,2021kjhgS-FYBrightspace_Middle_School,Brightspace Middle School,,,1,,,,,2021kjhgD_FY_Brightspace_District
-School,CREATE,2021kjhgS-FYBrightspace_High_School,Brightspace High School,,,1,,,,,2021kjhgD_FY_Brightspace_District
-School,CREATE,2021kjhgS-FYBrightspace_High_School,Brightspace High School,,,1,,,,,2021kjhgD_FY_Brightspace_District
-School,CREATE,2021kjhgS-FYBrightspace_High_School,Brightspace High School,,,1,,,,,2021kjhgD_FY_Brightspace_District
