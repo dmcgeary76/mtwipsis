@@ -1,0 +1,12 @@
+type,action,code,name,start_date,end_date,is_active,department_code,template_code,semester_code,offering_code,custom_code
+course template,UPDATE,PreK-K_GRD_T,PreK-K Template (7017),,,,2021kjhgS-FYBrightspace_Elementary,,,,
+course template,UPDATE,1_GRD_T,1st Grade Template (7015),,,,2021kjhgS-FYBrightspace_Elementary,,,,
+course template,UPDATE,2_GRD_T,2nd Grade Template (7019),,,,2021kjhgS-FYBrightspace_Elementary,,,,
+course template,UPDATE,3_GRD_T,3rd Grade Template (6692),,,,2021kjhgS-FYBrightspace_Elementary,,,,
+course template,UPDATE,4_GRD_T,4th Grade Template (6687),,,,2021kjhgS-FYBrightspace_Elementary,,,,
+course template,UPDATE,5_GRD_T,5th Grade Template (7022),,,,2021kjhgS-FYBrightspace_Elementary,,,,
+course template,UPDATE,6_GRD_T,6th Grade Template (6689),,,,2021kjhgS-FYBrightspace_Middle_School,,,,
+course template,UPDATE,7_GRD_T,7th Grade Template (7020),,,,2021kjhgS-FYBrightspace_Middle_School,,,,
+course template,UPDATE,8_GRD_T,8th Grade Template (7023),,,,2021kjhgS-FYBrightspace_Middle_School,,,,
+course template,UPDATE,9-10_GRD_T,9-10th Grade Template (7026),,,,2021kjhgS-FYBrightspace_High_School,,,,
+course template,UPDATE,11-12_GRD_T,11th-12th Grade Template (7005),,,,2021kjhgS-FYBrightspace_High_School,,,,

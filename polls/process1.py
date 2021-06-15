@@ -9,6 +9,7 @@ from botocore.exceptions import ClientError
 doc_path = 'upload.xlsx'
 aca_year = '2021'
 ucode = 'BSD'
+dcode = ''
 headers = ['type','action','code','name','start_date','end_date','is_active','department_code','template_code','semester_code','offering_code','custom_code']
 # temp_list = [['3gm','3rd Grade Master'],['4gm','4th Grade Master'],['5gm','5th Grade Master']]
 temp_list = [
@@ -46,6 +47,7 @@ def create_district(doc_path, temp_list, grades_list, headers, unc):
     district_data.append(aca_year + unc + 'D_FY_' + str(district_list[1]).replace(' ','_'))
     district_data.append(str(district_list[1]))
     district_code = aca_year + unc + 'D_FY_' + str(district_list[1]).replace(' ','_')
+    dcode = district_code
     district_data = district_data + ['','']
     district_data.append('1')
     district_data = district_data + ['','','','']
@@ -56,6 +58,15 @@ def create_district(doc_path, temp_list, grades_list, headers, unc):
     create_schools(district_code, doc_path, temp_list, grades_list, headers, unc)
     course_index = create_schools(district_code, doc_path, temp_list, grades_list, headers, unc)
     return course_index
+
+
+def get_dcode(doc_path, unc):
+    course_index = []
+    WS = pd.read_excel(doc_path)
+    WS_np = np.array(WS)
+    district_list = list(WS_np[0])
+    district_code = aca_year + unc + 'D_FY_' + str(district_list[1]).replace(' ','_')
+    return district_code
 
 
 def create_schools(district_code, doc_path, temp_list, grades_list, headers, unc):
@@ -179,24 +190,30 @@ def create_users():
     user_list.pop(0)
     users.append(headers)
     for user in user_list:
-        users.append(['user','CREATE',user[2],user[2],user[0],user[1],'demos123!','1',user[5],user[2],'','',''])
+        if user[5] == 'Student':
+            users.append(['user','CREATE',user[2],user[2],user[0],user[1],'demos123!','1','Student',user[2],'','',''])
+        else:
+            users.append(['user','CREATE',user[2],user[2],user[0],user[1],'demos123!','1','Teacher',user[2],'','',''])
     df = pd.DataFrame(users)
     df.to_csv('6-Users.csv', header=False, index=False, sep=',')
     return user_list
 
 
-def create_enrollments(users, course_index):
+def create_enrollments(users, course_index,dcode):
     enrollments = []
     headers = ['type','action','child_code','role_name','parent_code']
     enrollments.append(headers)
     for user in users:
-        user_grades = str(user[6]).split(',')
-        for grade in user_grades:
-            print(grade)
-            print(course_index)
-            for course in course_index:
-                if course[1] == grade:
-                    enrollments.append(['enrollment','CREATE',user[2],user[8],course[2]])
+        if user[5] == 'District Admin':
+            enrollments.append(['enrollment','CREATE',user[2],'District Admin',dcode])
+        else:
+            user_grades = str(user[6]).split(',')
+            for grade in user_grades:
+                #print(grade)
+                #print(course_index)
+                for course in course_index:
+                    if course[1] == grade:
+                        enrollments.append(['enrollment','CREATE',user[2],user[8],course[2]])
     df = pd.DataFrame(enrollments)
     df.to_csv('7-Enrollments.csv', header=False, index=False, sep=',')
 
@@ -215,7 +232,9 @@ def main(unc):
     course_index = create_district(doc_path, temp_list, grades_list, headers, unc)
     create_users()
     users = create_users()
-    create_enrollments(users, course_index)
+    dcode = get_dcode(doc_path, unc)
+    print('The dcode is %s' % dcode)
+    create_enrollments(users, course_index,dcode)
     this_day = str(date.today())
     now = datetime.now()
     ct = str(now.strftime("%H:%M:%S").replace(':',''))

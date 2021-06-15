@@ -1,0 +1,8 @@
+type,action,username,org_defined_id,first_name,last_name,password,is_active,role_name,email,relationships,pref_first_name,pref_last_name
+user,CREATE,dstudent@brightspacedemo.com,dstudent@brightspacedemo.com,David,Student,demos123!,1,Student,dstudent@brightspacedemo.com,,,
+user,CREATE,dteacher@brightspacedemo.com,dteacher@brightspacedemo.com,David,Teacher,demos123!,1,Teacher,dteacher@brightspacedemo.com,,,
+user,CREATE,kstudent@brightspacedemo.com,kstudent@brightspacedemo.com,Kori,Student,demos123!,1,Student,kstudent@brightspacedemo.com,,,
+user,CREATE,cteacher@brightspacedemo.com,cteacher@brightspacedemo.com,Charli,Teacher,demos123!,1,Teacher,cteacher@brightspacedemo.com,,,
+user,CREATE,pstudent@brightspacedemo.com,pstudent@brightspacedemo.com,Phraenquelynne,Student,demos123!,1,Student,pstudent@brightspacedemo.com,,,
+user,CREATE,bteacher@brightspacedemo.com,bteacher@brightspacedemo.com,Brodie,Teacher,demos123!,1,Teacher,bteacher@brightspacedemo.com,,,
+user,CREATE,aadmin2@brightspacedemo.com,aadmin2@brightspacedemo.com,Alicia,Admin,demos123!,1,Teacher,aadmin2@brightspacedemo.com,,,
