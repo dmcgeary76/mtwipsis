@@ -129,7 +129,7 @@ def update_templates(temp_list, schools_list, grades_list, headers, unc):
         print('Start: %s, End: %s' % (i_start, i_end))
         for i in range(i_start, i_end):
             print(i)
-            templates.append(['course template','UPDATE',temp_list[i][0],temp_list[i][1],'','','',school[2],'','','',''])
+            templates.append(['course template','CREATE',temp_list[i][0],temp_list[i][1],'','','',school[2],'','','',''])
     df = pd.DataFrame(templates)
     df.to_csv('4-Templates.csv', header=False, index=False, sep=',')
     create_offerings(temp_list, schools_list, grades_list, headers, unc)
@@ -199,7 +199,7 @@ def create_users():
     return user_list
 
 
-def create_enrollments(users, course_index,dcode):
+def create_enrollments(users, course_index, dcode):
     enrollments = []
     headers = ['type','action','child_code','role_name','parent_code']
     enrollments.append(headers)
@@ -209,8 +209,6 @@ def create_enrollments(users, course_index,dcode):
         else:
             user_grades = str(user[6]).split(',')
             for grade in user_grades:
-                #print(grade)
-                #print(course_index)
                 for course in course_index:
                     if course[1] == grade:
                         enrollments.append(['enrollment','CREATE',user[2],user[8],course[2]])
